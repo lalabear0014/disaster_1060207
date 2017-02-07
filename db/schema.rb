@@ -10,13 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170207113921) do
+ActiveRecord::Schema.define(version: 20170207132015) do
 
   create_table "events", force: :cascade do |t|
     t.string   "title"
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string   "content"
+    t.integer  "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_messages_on_event_id"
   end
 
 end
