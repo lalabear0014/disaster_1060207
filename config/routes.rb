@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   	end
 
  	get "events" => "events#index"
-    root 'events#index'
+    root to: 'events#index'
 
     # match ':controller(/:action(/:id(.:format)))', :via => :all
 
