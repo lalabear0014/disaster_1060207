@@ -1,5 +1,7 @@
 <h2><%= @event.title %></h2>
 
+<p><%= @event.category_name %></p>
+
 <%= simple_format @event.description %>
 
 <p><%= link_to 'Back to index', events_path %></p>
