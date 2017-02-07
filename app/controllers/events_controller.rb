@@ -23,6 +23,8 @@ class EventsController < ApplicationController
 	# POST /events
  	def create
 		@event = Event.new( event_params )
+
+		@event.user = current_user
 		
 		if @event.save
 			flash[:notice] = "新增成功"

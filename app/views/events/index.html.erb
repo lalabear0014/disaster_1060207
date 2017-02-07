@@ -4,6 +4,10 @@
 	<% @events.each do |e| %>
 		<li>
 			<%= e.title %>
+
+			<td>
+				<%= e.user.try(:email) %>
+			</td>
 			
 			<%= link_to 'Show', event_path(e) %>
 			<%= link_to 'Edit', edit_event_path(e) %>
