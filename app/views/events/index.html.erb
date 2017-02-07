@@ -4,10 +4,14 @@
 	<% @events.each do |e| %>
 		<li>
 			<%= e.title %>
-
+			
 			<%= link_to 'Show', event_path(e) %>
 			<%= link_to 'Edit', edit_event_path(e) %>
 			<%= link_to 'Delete', event_path(e), :method => :delete %>
+
+			<% Time.zone = "Taipei" %>
+			Updated Time <%= e.updated_at %>
+
 		</li>
 	<% end %>
 </ul>
