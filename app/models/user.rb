@@ -7,4 +7,8 @@ class User < ApplicationRecord
     has_many :events
     has_many :messages
 
+    def short_name
+		self.email.split("@").first
+	end
+
 end
