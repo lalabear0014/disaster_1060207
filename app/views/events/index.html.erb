@@ -4,17 +4,21 @@
 	<% @events.each do |e| %>
 		<tr>
 			<td>
-				<%= e.title %>
+				<%= link_to e.title, event_path(e), :class => "btn btn-default" %>
 			</td>
-			<td>
-				<%= link_to 'Show', event_path(e), :class => "btn btn-primary" %>
-				<%= link_to 'Edit', edit_event_path(e), :class => "btn btn-default" %>
+			<td>				
+				<%= link_to 'Edit', edit_event_path(e), :class => "btn btn-primary" %>
 				<%= link_to 'Delete', event_path(e), :method => :delete, :class => "btn btn-danger" %>
+
+				<% Time.zone = "Taipei" %>
+				<%= e.updated_at %>
 			</td>			
 		</tr>
 	<% end %>
 </table>
 
-<%= link_to 'New Event', new_event_path %>
+<%= link_to 'New Event', new_event_path, :class => "btn btn-primary" %>
+<p>
+	<%= paginate @events %>
+</p>
 
-<%= paginate @events %>
