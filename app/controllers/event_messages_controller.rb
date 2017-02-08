@@ -18,7 +18,7 @@ class EventMessagesController < ApplicationController
 		@message = @event.messages.build( message_params )
 
 		if @message.save
-			redirect_to event_messages_path(@event)
+			redirect_to event_path(@event)
 		else
 			render :action => :new
 		end
@@ -32,7 +32,7 @@ class EventMessagesController < ApplicationController
 		@message = @event.messages.find( params[:id] )
 
 		if @message.update( message_params )
-			redirect_to event_messages_path(@event)
+			redirect_to event_path(@event)
 		else
 			render :action => :edit
 		end
@@ -43,7 +43,7 @@ class EventMessagesController < ApplicationController
 
 		@message.destroy
 
-		redirect_to event_messages_path(@event)
+		redirect_to event_path(@event)
 	end
 
 	protected

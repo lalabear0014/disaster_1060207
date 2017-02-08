@@ -1,15 +1,32 @@
 <h2><%= @event.title %></h2>
 
-<p>
-	Category: <%= @event.category_name %>
-</p>
+<h4>
+	Category:
+</h4>
+<%= @event.category_name %>
 	
-<p>
-	Description: <%= simple_format @event.description %>
-</p>
+<h4>
+	Description:
+</h4>
+<%= simple_format @event.description %>
 
-<p>
-	Message: <%= @event.message_content %>
-</p>
+<h4>Messages: </h4>
+<table class="table">
+	<% @event.messages.each do |e| %>
+		<tr>
+			<td>
+				<%= e.content %>
+			</td>
+			<td>				
+				<%= link_to 'Edit', edit_event_message_path(@event, e), :class => "btn btn-primary" %>
+				<%= link_to 'Delete', event_message_path(@event, e), :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "btn btn-danger" %>
 
-<p><%= link_to 'Back to index', events_path %></p>
+				<% Time.zone = "Taipei" %>
+				<%= e.updated_at %>
+			</td>			
+		</tr>
+	<% end %>
+</table>
+
+<p><%= link_to "New message", new_event_message_path(@event), :class => "btn btn-primary" %></p>
+<p><%= link_to 'Back to index', events_path, :class => "btn btn-primary" %></p>
