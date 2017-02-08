@@ -25,7 +25,7 @@ class EventsController < ApplicationController
 		@event = Event.new( event_params )
 
 		@event.user = current_user
-		
+
 		if @event.save
 			flash[:notice] = "新增成功"
 			redirect_to events_path
@@ -41,19 +41,30 @@ class EventsController < ApplicationController
 	end
 
 	# PATCH /events/:id
-	def update		
-		if @event.update( event_params )
-			flash[:notice] = "編輯成功"
-			redirect_to event_path(@event)
+	def update
+
+		if current_user == @event.user
+			if @event.update( event_params )
+				flash[:notice] = "編輯成功"
+				redirect_to event_path(@event)
+			else
+				render :action => :edit	# edit.html.erb
+			end
 		else
-			render :action => :edit	# edit.html.erb
-		end
+			flash[:alert] = "非創建者"
+			redirect_to event_path(@event)	
+		end		
+		
 	end
 
 	# DELETE /events/:id
 	def destroy
-		@event.destroy
-		flash[:alert] = "刪除成功"
+		if current_user == @event.user
+			@event.destroy
+			flash[:alert] = "刪除成功"
+		else
+			flash[:alert] = "非創建者"
+		end	
 
 		redirect_to events_path
 	end

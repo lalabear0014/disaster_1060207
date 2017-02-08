@@ -1,13 +1,14 @@
 class EventMessagesController < ApplicationController
 
 	before_action :set_event
+	before_action :set_message, :only => [:show, :edit, :update, :destroy]
 
 	def index
 		@messages = @event.messages
 	end
 
 	def show
-		@message = @event.messages.find( params[:id] )
+		
 	end
 
 	def new
@@ -17,7 +18,10 @@ class EventMessagesController < ApplicationController
 	def create 
 		@message = @event.messages.build( message_params )
 
+		@message.user = current_user
+
 		if @message.save
+			flash[:notice] = "新增成功"
 			redirect_to event_path(@event)
 		else
 			render :action => :new
@@ -25,23 +29,30 @@ class EventMessagesController < ApplicationController
 	end
 
 	def edit
-		@message = @event.messages.find( params[:id] )
+		
 	end
 
 	def update
-		@message = @event.messages.find( params[:id] )
-
-		if @message.update( message_params )
-			redirect_to event_path(@event)
+		if current_user == @message.user
+			if @message.update( message_params )
+				flash[:notice] = "編輯成功"
+				redirect_to event_path(@event)
+			else
+				render :action => :edit
+			end
 		else
-			render :action => :edit
-		end
+			flash[:alert] = "非創建者"
+			redirect_to event_path(@event)
+		end		
 	end
 
 	def destroy
-		@message = @event.messages.find( params[:id] )
-
-		@message.destroy
+		if current_user == @message.user
+			@message.destroy
+			flash[:alert] = "刪除成功"
+		else
+			flash[:alert] = "非創建者"
+		end
 
 		redirect_to event_path(@event)
 	end
@@ -54,6 +65,10 @@ class EventMessagesController < ApplicationController
 
 	def set_event
 		@event = Event.find( params[:event_id] )
+	end
+
+	def set_message
+		@message = @event.messages.find( params[:id] )
 	end
 
 end
