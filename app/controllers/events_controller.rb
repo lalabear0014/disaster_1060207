@@ -7,7 +7,7 @@ class EventsController < ApplicationController
 	# GET /events/index
 	# GET /events
 	def index
-		@events = Event.page(params[:page]).per(5)
+		prepare_variable_for_index_template
 	end
 
 	# GET /events/:id
@@ -78,5 +78,16 @@ class EventsController < ApplicationController
 	def event_params
 		params.require(:event).permit(:title, :description, :category_id)
  	end
+
+ 	def prepare_variable_for_index_template
+		if params[:keyword]
+			@events = Event.where( [ "title like ?", "%#{params[:keyword]}%" ] )
+		else
+			@events = Event.all	
+		end
+
+		@events = @events.page( params[:page] ).per(5)
+	end
+
 
 end
