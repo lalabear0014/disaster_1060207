@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
 
-	authorize_resource :event
+	authorize_resource :event, :except => [:index]
 	
 	before_action :authenticate_user!, :except => [:index]
 
