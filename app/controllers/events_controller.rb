@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
 
+	authorize_resource :event
+	
 	before_action :authenticate_user!, :except => [:index]
 
 	before_action :set_event, :only => [:show, :edit, :update, :destroy]
@@ -12,7 +14,7 @@ class EventsController < ApplicationController
 
 	# GET /events/:id
 	def show
-		
+		authorize! :read, @event
 	end
 
 	# GET /events/new
@@ -23,6 +25,7 @@ class EventsController < ApplicationController
 	# POST /events
  	def create
 		@event = Event.new( event_params )
+		authorize! :create, @event
 
 		@event.user = current_user
 
@@ -42,7 +45,7 @@ class EventsController < ApplicationController
 
 	# PATCH /events/:id
 	def update
-
+		authorize! :update, @event
 		if current_user == @event.user
 			if @event.update( event_params )
 				flash[:notice] = "編輯成功"
@@ -59,6 +62,7 @@ class EventsController < ApplicationController
 
 	# DELETE /events/:id
 	def destroy
+		authorize! :destroy, @event
 		if current_user == @event.user
 			@event.destroy
 			flash[:alert] = "刪除成功"
