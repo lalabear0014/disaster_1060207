@@ -34,7 +34,7 @@ class Ability
     elsif user.admin?
         can :manage, :all
     else                                 # 有登入的user能做的事情
-        can :create, @event               # 包括new跟create
+        can :create, @event              # 包括new跟create
         can :update, @event do |e|              
             (e.user_id == user.id)       # 讓user只能編輯自己的
         end
